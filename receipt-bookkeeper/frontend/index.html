@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>收據記帳工具 Receipt Bookkeeper</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🧾 收據記帳工具</h1>
+  <p class="subtitle">上傳收據相片或 PDF，自動提取資料並分類，匯出 Excel / CSV</p>
+
+  <div id="drop-zone" role="button" tabindex="0" aria-label="Upload receipt files">
+    <span class="icon">📂</span>
+    <p>拖放收據相片或 PDF 到此處</p>
+    <p style="margin-bottom:0.75rem">或</p>
+    <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">
+      選擇檔案
+    </button>
+    <small style="display:block;margin-top:0.75rem">支援 JPG、PNG、PDF · 每個檔案最大 10 MB</small>
+    <input type="file" id="file-input" multiple accept="image/jpeg,image/png,application/pdf" />
+  </div>
+
+  <div id="spinner">
+    <div class="spin"></div>
+    <span id="spinner-text">正在處理收據…</span>
+  </div>
+
+  <div id="error-msg"></div>
+
+  <section id="results-section">
+    <div class="results-header">
+      <h2>📋 審閱結果 <span id="row-count" style="color:#64748B;font-weight:400;font-size:0.9rem"></span></h2>
+      <button class="btn btn-primary" id="add-more-btn">＋ 再加收據</button>
+      <button class="btn btn-green"  id="export-xlsx-btn">⬇ 下載 Excel</button>
+      <button class="btn btn-slate"  id="export-csv-btn">⬇ 下載 CSV</button>
+    </div>
+    <div class="legend">
+      <span class="legend-dot"></span>
+      黃色行 = 未分類，需人手審批
+    </div>
+    <div class="table-wrapper">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>日期</th>
+            <th>分類</th>
+            <th>描述</th>
+            <th>商戶</th>
+            <th>GST</th>
+            <th>總金額</th>
+            <th>稅前金額</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

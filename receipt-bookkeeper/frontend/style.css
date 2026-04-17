@@ -1,0 +1,190 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #F1F5F9;
+  color: #1E293B;
+  min-height: 100vh;
+  padding: 1.5rem 1rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1E40AF;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  color: #64748B;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Drop zone */
+#drop-zone {
+  border: 2.5px dashed #93C5FD;
+  border-radius: 12px;
+  background: #EFF6FF;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  margin-bottom: 1.5rem;
+}
+
+#drop-zone.drag-over {
+  background: #DBEAFE;
+  border-color: #2563EB;
+}
+
+#drop-zone .icon { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+#drop-zone p { color: #3B82F6; font-size: 1rem; margin-bottom: 0.5rem; }
+#drop-zone small { color: #94A3B8; font-size: 0.8rem; }
+
+#file-input { display: none; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: #2563EB; color: #fff; }
+.btn-primary:hover:not(:disabled) { background: #1D4ED8; }
+.btn-green  { background: #16A34A; color: #fff; }
+.btn-green:hover:not(:disabled)  { background: #15803D; }
+.btn-slate  { background: #475569; color: #fff; }
+.btn-slate:hover:not(:disabled)  { background: #334155; }
+
+/* Spinner */
+#spinner {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  color: #2563EB;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+#spinner.visible { display: flex; }
+.spin {
+  width: 20px; height: 20px;
+  border: 3px solid #BFDBFE;
+  border-top-color: #2563EB;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Error */
+#error-msg {
+  display: none;
+  background: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  color: #B91C1C;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+#error-msg.visible { display: block; }
+
+/* Results section */
+#results-section { display: none; }
+#results-section.visible { display: block; }
+
+.results-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.results-header h2 { font-size: 1.1rem; flex: 1; }
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: #78716C;
+  margin-bottom: 0.75rem;
+}
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  background: #FEF3C7;
+  border: 1px solid #F59E0B;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  margin-bottom: 1.5rem;
+  background: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  min-width: 780px;
+}
+
+thead th {
+  background: #2563EB;
+  color: #fff;
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) { background: #F8FAFC; }
+tbody tr.unclassified { background: #FEF3C7; }
+tbody tr:hover { background: #EFF6FF; }
+
+td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid #E2E8F0;
+  vertical-align: middle;
+}
+
+td[contenteditable="true"] {
+  outline: none;
+  min-width: 80px;
+}
+td[contenteditable="true"]:focus {
+  background: #EFF6FF;
+  box-shadow: inset 0 0 0 2px #93C5FD;
+  border-radius: 4px;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-meals     { background: #FEF3C7; color: #92400E; }
+.badge-office    { background: #DBEAFE; color: #1E40AF; }
+.badge-travel    { background: #D1FAE5; color: #065F46; }
+.badge-utilities { background: #EDE9FE; color: #5B21B6; }
+.badge-unknown   { background: #F1F5F9; color: #64748B; }
+
+@media (max-width: 600px) {
+  h1 { font-size: 1.25rem; }
+  .results-header { flex-direction: column; align-items: flex-start; }
+}
