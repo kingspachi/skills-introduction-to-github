@@ -21,6 +21,25 @@ _Get started using GitHub in less than an hour._
   Encourage users to open new tabs for steps!
 -->
 
+## 如何使用程式碼（繁體中文說明）
+
+在 GitHub 上，您可以使用程式碼區塊來分享和展示程式碼。以下是基本步驟：
+
+1. **在 Markdown 中插入程式碼**：使用反引號（`` ` ``）包住行內程式碼，例如：`git status`。
+2. **插入多行程式碼區塊**：使用三個反引號（` ``` `）包住程式碼，並在第一行指定程式語言，例如：
+
+   ```bash
+   git init
+   git add .
+   git commit -m "初次提交"
+   git push origin main
+   ```
+
+3. **在檔案中編輯程式碼**：點選倉庫中的檔案，再點擊鉛筆圖示（✏️）進行編輯。
+4. **提交變更**：編輯完成後，在頁面底部填寫提交訊息，然後點擊 **Commit changes**。
+
+---
+
 ## Step 1: Create a branch
 
 _Welcome to "Introduction to GitHub"! :wave:_
