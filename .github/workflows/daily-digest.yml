@@ -1,0 +1,33 @@
+name: Gmail 每日簡報 Bot
+
+on:
+  schedule:
+    # 每日香港時間 11:00 AM = UTC 03:00
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+    # 支援手動觸發，方便測試
+
+jobs:
+  gmail-digest:
+    name: 生成並發送每日 Gmail 簡報
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Gmail Daily Digest
+        env:
+          GMAIL_TOKEN_JSON: ${{ secrets.GMAIL_TOKEN_JSON }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python gmail_digest.py
