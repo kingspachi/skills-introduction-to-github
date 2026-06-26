@@ -67,6 +67,7 @@ cd grandview
 python -m pip install -r requirements.txt          # pyyaml, and optionally pandas/openpyxl
 python -m pytest tests/                             # run the test suite
 python system/scripts/gst_calculator.py --demo      # see a sample GST workpaper
+python system/scripts/payroll_processor.py --demo   # see a sample payroll register
 ```
 
 ## Status
@@ -75,7 +76,7 @@ python system/scripts/gst_calculator.py --demo      # see a sample GST workpaper
 |-----------|-------|
 | Config + shared utilities | ✅ Implemented |
 | GST/HST engine + tests | ✅ Implemented |
-| Payroll processor | 🟡 Config-driven scaffold |
+| Payroll processor (CPP/EI + remittance) | ✅ Implemented + tested |
 | T1/T2 tax calculator | 🟡 Config-driven scaffold |
 | Bank reconciliation | 🟡 Scaffold |
 | Report generator | ✅ Implemented |
