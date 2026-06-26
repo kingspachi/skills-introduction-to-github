@@ -1,0 +1,91 @@
+# =============================================================================
+# Grandview CPA — Tax Rate Configuration
+# =============================================================================
+# ⚠️  EVERY VALUE BELOW IS A PLACEHOLDER AND MUST BE VERIFIED BY A CPA AGAINST
+#     THE CURRENT OFFICIAL CRA / PROVINCIAL SOURCE BEFORE PRODUCTION USE.
+#     The "verified" flags start false. Flip a section to true ONLY after a
+#     human has confirmed each number and recorded the source + date below it.
+# =============================================================================
+
+meta:
+  tax_year: 2025
+  currency: CAD
+  last_reviewed_by: null        # e.g. "P. Lau, CPA"
+  last_reviewed_date: null      # e.g. "2026-06-26"
+
+# --- GST / HST -------------------------------------------------------------
+# These rates are relatively stable and publicly published by CRA, but STILL
+# require confirmation for the engagement period.
+gst_hst:
+  verified: false
+  source: "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-which-rate.html"
+  # Combined rate applied to taxable supplies, keyed by place of supply.
+  rates_by_province:
+    AB: 0.05   # GST only
+    BC: 0.05   # GST only (PST handled separately, not a CRA filing)
+    MB: 0.05
+    NB: 0.15   # HST
+    NL: 0.15   # HST
+    NS: 0.15   # HST  (VERIFY: rate changes have been proposed)
+    NT: 0.05
+    NU: 0.05
+    "ON": 0.13 # HST
+    PE: 0.15   # HST
+    QC: 0.05   # GST (QST filed with Revenu Québec, not in this engine)
+    SK: 0.05
+    YT: 0.05
+  quick_method:
+    enabled: false
+    # remittance_rate must be looked up per business type/province — DO NOT GUESS
+    remittance_rate: null
+
+# --- Payroll source deductions --------------------------------------------
+payroll:
+  verified: false
+  source: "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/payroll.html"
+  cpp:
+    employee_rate: null          # VERIFY (e.g. base contribution rate)
+    employer_rate: null
+    basic_exemption: null        # annual
+    max_pensionable_earnings: null
+    # CPP2 / second additional contribution — VERIFY whether applicable
+    cpp2_rate: null
+    cpp2_ceiling: null
+  ei:
+    employee_rate: null          # VERIFY
+    employer_multiplier: null    # typically employer = employee_rate * multiplier
+    max_insurable_earnings: null
+
+# --- Personal income tax (T1) ---------------------------------------------
+# Federal + provincial brackets. Each bracket: [up_to_income_or_null, rate].
+# null upper bound = top bracket (applies to all income above previous bound).
+personal_income_tax:
+  verified: false
+  source: "https://www.canada.ca/en/revenue-agency/services/tax/individuals/frequently-asked-questions-individuals/canadian-income-tax-rates-individuals-current-previous-years.html"
+  federal:
+    basic_personal_amount: null  # VERIFY (may be income-tested)
+    brackets:                    # PLACEHOLDER STRUCTURE — replace bounds & rates
+      - [null, null]
+  provincial:
+    "ON":
+      basic_personal_amount: null
+      brackets:
+        - [null, null]
+    BC:
+      basic_personal_amount: null
+      brackets:
+        - [null, null]
+    # add other provinces as needed
+
+# --- Corporate income tax (T2) --------------------------------------------
+corporate_income_tax:
+  verified: false
+  source: "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/corporations/corporation-tax-rates.html"
+  federal:
+    small_business_rate: null    # after SBD
+    general_rate: null
+    small_business_limit: null   # active business income threshold
+  provincial:
+    "ON":
+      small_business_rate: null
+      general_rate: null

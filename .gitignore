@@ -35,3 +35,18 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# --- Grandview CPA automation: NEVER commit client data ---
+grandview/clients/**
+!grandview/clients/.gitkeep
+!grandview/clients/README.md
+grandview/workpapers/**
+!grandview/workpapers/.gitkeep
+*.client.*
+*_PII.*
+
+# Grandview runtime artifacts
+grandview/system/skills/notifications.log
+grandview/system/skills/.seen_files.txt
+grandview/**/__pycache__/
+grandview/.pytest_cache/

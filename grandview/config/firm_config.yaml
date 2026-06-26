@@ -1,0 +1,21 @@
+# Grandview Professional Corporation — firm settings
+firm:
+  legal_name: "Grandview Professional Corporation"
+  jurisdiction: "Canada"
+  default_province: "ON"          # default place of supply / residence
+
+output:
+  workpaper_format: "markdown"    # markdown | (future: html, xlsx)
+  rounding:
+    money_dp: 2                   # decimal places for currency
+    rate_dp: 4
+  include_qc_checklist: true
+  reviewer_signoff_required: true
+
+data_sources:
+  # Active adapter for pulling source data. "file" reads from clients/.
+  # "quickbooks" is reserved for the QBO MCP integration (not yet wired).
+  active: "file"
+  file:
+    client_root: "clients"
+    accepted_formats: [".csv", ".xlsx", ".pdf"]
