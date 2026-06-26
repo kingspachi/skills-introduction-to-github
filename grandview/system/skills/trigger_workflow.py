@@ -7,6 +7,7 @@ auto-run filings; it queues work and notifies the CPA, who decides what to run.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Callable
 
 import notify_cpa
 
@@ -22,18 +23,31 @@ ROUTES: dict[str, str] = {
     "UNKNOWN": "manual triage",
 }
 
+# Below this confidence (or for UNKNOWN) a document needs human confirmation.
+LOW_CONFIDENCE_THRESHOLD = 0.5
 
-def route(path: Path, classification) -> dict:
-    """Queue a document for its workflow and notify the CPA."""
+
+def route(path: Path, classification, *, notifier: Callable | None = None) -> dict:
+    """Queue a document for its workflow and notify the CPA.
+
+    ``notifier`` defaults to :func:`notify_cpa.notify` but can be injected
+    (tests, alternate channels). Returns the queued work item, including a
+    ``needs_review`` flag for low-confidence/unknown classifications.
+    """
+    notifier = notifier or notify_cpa.notify
     target = ROUTES.get(classification.category, "manual triage")
+    low_conf = (
+        classification.confidence < LOW_CONFIDENCE_THRESHOLD
+        or classification.category == "UNKNOWN"
+    )
     item = {
         "file": str(path.name),
         "category": classification.category,
         "confidence": classification.confidence,
         "workflow": target,
+        "needs_review": low_conf,
     }
-    low_conf = classification.confidence < 0.5 or classification.category == "UNKNOWN"
-    notify_cpa.notify(
+    notifier(
         subject=f"New document: {path.name} -> {classification.category}",
         body=(
             f"Routed to: {target}\n"

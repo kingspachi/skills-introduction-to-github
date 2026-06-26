@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import time
 from pathlib import Path
+from typing import Callable
 
 import classify_documents
 import trigger_workflow
@@ -21,32 +22,51 @@ PACKAGE_ROOT = Path(__file__).resolve().parents[2]
 INTAKE_DIR = PACKAGE_ROOT / "clients"
 STATE_FILE = PACKAGE_ROOT / "system" / "skills" / ".seen_files.txt"
 
+# Files that are part of the repo scaffolding, not client uploads.
+IGNORED_NAMES = {".gitkeep", "README.md"}
 
-def _load_seen() -> set[str]:
-    if STATE_FILE.exists():
-        return set(STATE_FILE.read_text(encoding="utf-8").splitlines())
+
+def _load_seen(state_file: Path) -> set[str]:
+    if state_file.exists():
+        return set(state_file.read_text(encoding="utf-8").splitlines())
     return set()
 
 
-def _save_seen(seen: set[str]) -> None:
-    STATE_FILE.write_text("\n".join(sorted(seen)), encoding="utf-8")
+def _save_seen(state_file: Path, seen: set[str]) -> None:
+    state_file.parent.mkdir(parents=True, exist_ok=True)
+    state_file.write_text("\n".join(sorted(seen)), encoding="utf-8")
 
 
-def scan_once() -> list[Path]:
-    """Process any unseen files and return the list handled this pass."""
-    seen = _load_seen()
+def _default_handler(path: Path) -> dict:
+    """Classify a new file and route it."""
+    classification = classify_documents.classify(path.name)
+    return trigger_workflow.route(path, classification)
+
+
+def scan_once(
+    intake_dir: Path = INTAKE_DIR,
+    state_file: Path = STATE_FILE,
+    *,
+    on_new: Callable[[Path], object] | None = None,
+) -> list[Path]:
+    """Process any unseen files and return the list handled this pass.
+
+    State is keyed by path relative to ``intake_dir`` so a file is handled once.
+    ``on_new`` defaults to classify+route but can be injected for tests.
+    """
+    on_new = on_new or _default_handler
+    seen = _load_seen(state_file)
     handled: list[Path] = []
-    for path in INTAKE_DIR.rglob("*"):
-        if not path.is_file() or path.name in {".gitkeep", "README.md"}:
+    for path in sorted(intake_dir.rglob("*")):
+        if not path.is_file() or path.name in IGNORED_NAMES:
             continue
-        key = str(path.relative_to(PACKAGE_ROOT))
+        key = str(path.relative_to(intake_dir))
         if key in seen:
             continue
-        classification = classify_documents.classify(path.name)
-        trigger_workflow.route(path, classification)
+        on_new(path)
         seen.add(key)
         handled.append(path)
-    _save_seen(seen)
+    _save_seen(state_file, seen)
     return handled
 
 

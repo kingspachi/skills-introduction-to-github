@@ -85,7 +85,7 @@ python system/scripts/bank_rec_engine.py --demo     # see a sample bank reconcil
 | Bank reconciliation (matching + balance proof) | ✅ Implemented + tested |
 | Report generator | ✅ Implemented |
 | QuickBooks data source + sync bridge | ✅ Implemented + tested |
-| Skills (portal/classify/route/notify) | 🟡 Functional skeletons |
+| Intake skills (watch/classify/route/notify) | ✅ Implemented + tested |
 | Prompt templates | ✅ Drafted (Cantonese) |
 | Knowledge base | 🟡 Templates — verify all figures |
 
