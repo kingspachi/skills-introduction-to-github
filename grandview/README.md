@@ -68,6 +68,7 @@ python -m pip install -r requirements.txt          # pyyaml, and optionally pand
 python -m pytest tests/                             # run the test suite
 python system/scripts/gst_calculator.py --demo      # see a sample GST workpaper
 python system/scripts/payroll_processor.py --demo   # see a sample payroll register
+python system/scripts/bank_rec_engine.py --demo     # see a sample bank reconciliation
 ```
 
 ## Status
@@ -78,7 +79,7 @@ python system/scripts/payroll_processor.py --demo   # see a sample payroll regis
 | GST/HST engine + tests | ✅ Implemented |
 | Payroll processor (CPP/EI + remittance) | ✅ Implemented + tested |
 | T1/T2 tax calculator | 🟡 Config-driven scaffold |
-| Bank reconciliation | 🟡 Scaffold |
+| Bank reconciliation (matching + balance proof) | ✅ Implemented + tested |
 | Report generator | ✅ Implemented |
 | Skills (portal/classify/route/notify) | 🟡 Functional skeletons |
 | Prompt templates | ✅ Drafted (Cantonese) |
