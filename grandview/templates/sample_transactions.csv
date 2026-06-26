@@ -1,6 +1,6 @@
-date,description,amount,account,tax_code
-2025-01-15,Consulting invoice #1001,10000.00,Revenue,standard
-2025-02-03,Consulting invoice #1002,5000.00,Revenue,standard
-2025-02-20,Export sale to US client,3000.00,Revenue,zero
-2025-01-31,Office rent,2000.00,Rent expense,standard
-2025-02-28,Software subscription,800.00,Software,standard
+date,description,amount,account,tax_code,kind
+2025-01-15,Consulting invoice #1001,10000.00,Revenue,standard,sale
+2025-02-03,Consulting invoice #1002,5000.00,Revenue,standard,sale
+2025-02-20,Export sale to US client,3000.00,Revenue,zero,sale
+2025-01-31,Office rent,2000.00,Rent expense,standard,purchase
+2025-02-28,Software subscription,800.00,Software,standard,purchase
