@@ -39,6 +39,8 @@ grandview/
 │   │   ├── payroll_processor.py # Config-driven CPP/EI/tax withholding
 │   │   ├── tax_calculator.py    # T1/T2 bracket engine (config-driven)
 │   │   ├── bank_rec_engine.py   # Bank reconciliation
+│   │   ├── qbo_adapter.py       # QuickBooks data source (reads normalized cache)
+│   │   ├── qbo_sync.py          # Bridge: writes the QBO cache from MCP responses
 │   │   └── report_generator.py  # Markdown workpaper rendering
 │   ├── skills/                 # Automation hooks (portal watch, classify, route, notify)
 │   └── prompts/                # LLM prompt templates (Cantonese) for document analysis
@@ -52,9 +54,10 @@ grandview/
 ### Design principles
 - **Single source of truth for numbers.** Engines never hard-code a rate; they
   read `config/`. Year-end rate updates = edit one file.
-- **Pluggable data sources.** `common.DataSource` is an adapter interface.
-  Today: CSV/Excel/PDF file imports. Later: wire in the QuickBooks Online MCP
-  without touching engine code.
+- **Pluggable data sources.** `common.DataSource` is an adapter interface with
+  two implementations: `FileDataSource` (CSV/Excel/PDF) and
+  `QuickBooksDataSource` (reads a normalized cache synced from the QBO MCP).
+  Switch via `data_sources.active` in `firm_config.yaml`; engines don't change.
 - **Everything is reviewable.** Each engine emits a Markdown workpaper showing
   inputs, the computation, and a QC checklist — so a reviewer can trace it.
 
@@ -81,6 +84,7 @@ python system/scripts/bank_rec_engine.py --demo     # see a sample bank reconcil
 | T1/T2 tax calculator | 🟡 Config-driven scaffold |
 | Bank reconciliation (matching + balance proof) | ✅ Implemented + tested |
 | Report generator | ✅ Implemented |
+| QuickBooks data source + sync bridge | ✅ Implemented + tested |
 | Skills (portal/classify/route/notify) | 🟡 Functional skeletons |
 | Prompt templates | ✅ Drafted (Cantonese) |
 | Knowledge base | 🟡 Templates — verify all figures |

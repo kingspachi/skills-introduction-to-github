@@ -19,3 +19,8 @@ data_sources:
   file:
     client_root: "clients"
     accepted_formats: [".csv", ".xlsx", ".pdf"]
+  quickbooks:
+    # Reads normalized cache files written by the sync step (system/scripts/qbo_sync.py).
+    # Set data_sources.active to "quickbooks" to use this adapter.
+    cache_root: "clients"          # qbo_<period>.json lives under clients/<client>/
+    realm_id: null                 # QBO company (realm) id — fill per integration

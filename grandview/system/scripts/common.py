@@ -168,12 +168,21 @@ def _parse_date(value: str | None) -> date | None:
 def get_data_source(firm_config: dict[str, Any] | None = None) -> DataSource:
     """Factory that returns the configured data source adapter."""
     firm_config = firm_config or load_firm_config()
-    active = firm_config.get("data_sources", {}).get("active", "file")
+    sources = firm_config.get("data_sources", {})
+    active = sources.get("active", "file")
     if active == "file":
         return FileDataSource()
+    if active == "quickbooks":
+        # Imported lazily to avoid a hard dependency when only files are used.
+        from qbo_adapter import QuickBooksDataSource
+
+        cache_root = sources.get("quickbooks", {}).get("cache_root")
+        if cache_root:
+            return QuickBooksDataSource(PACKAGE_ROOT / cache_root)
+        return QuickBooksDataSource()
     raise ConfigError(
-        f"Data source '{active}' is not implemented yet. "
-        "Only 'file' is available; 'quickbooks' is reserved for the QBO MCP."
+        f"Data source '{active}' is not implemented. "
+        "Available: 'file', 'quickbooks'."
     )
 
 
